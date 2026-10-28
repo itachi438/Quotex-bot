@@ -3,7 +3,6 @@ warnings.filterwarnings('ignore')
 import streamlit as st
 import yfinance as yf
 import pandas as pd
-import pandas_ta as ta
 
 st.title("🤖 Quotex AI Signal Generator Dashboard")
 st.write("یہ ویب ایپ لائیو مارکیٹ ڈیٹا (EMA اور RSI) کا تجزیہ کر کے سگنل فراہم کرتی ہے۔")
@@ -17,9 +16,18 @@ if st.button("📊 مارکیٹ کا تجزیہ کریں اور سگنل لیں"
         if data.empty:
             st.error("موجودہ ڈیٹا حاصل نہیں ہو سکا۔ براہ کرم دوبارہ کوشش کریں۔")
         else:
-            data['EMA_9'] = ta.ema(data['Close'], length=9)
-            data['EMA_21'] = ta.ema(data['Close'], length=21)
-            data['RSI'] = ta.rsi(data['Close'], length=14)
+            if isinstance(data.columns, pd.MultiIndex):
+                data.columns = data.columns.droplevel(1)
+                
+            # Calculate EMA and RSI using pure pandas
+            data['EMA_9'] = data['Close'].ewm(span=9, adjust=False).mean()
+            data['EMA_21'] = data['Close'].ewm(span=21, adjust=False).mean()
+            
+            delta = data['Close'].diff()
+            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+            rs = gain / loss
+            data['RSI'] = 100 - (100 / (1 + rs))
             
             current_price = float(data['Close'].iloc[-1])
             ema9 = float(data['EMA_9'].iloc[-1])
