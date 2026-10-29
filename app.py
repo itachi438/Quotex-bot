@@ -7,9 +7,8 @@ import base64
 import os
 
 # Page Configuration
-st.set_page_config(page_title="Haseeb Bot Pro", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="Haseeb Bot AI Pro", page_icon="⚡", layout="centered")
 
-# Function to convert local image to base64 for foolproof background styling
 def get_img_as_base64(file):
     if os.path.exists(file):
         with open(file, "rb") as f:
@@ -37,10 +36,27 @@ else:
     }}
     """
 
-# Styling Injection
+# Centered Styling & Layout Fixes
 st.markdown(f"""
     <style>
     {bg_style}
+    
+    /* Center all main block elements */
+    .block-container {{
+        max-width: 600px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        margin: 0 auto;
+    }}
+    
+    /* Center labels and text */
+    label, .stSelectbox label {{
+        color: #00f3ff !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+        display: block !important;
+        margin: 0 auto 5px auto !important;
+    }}
     
     .signal-box-up {{
         background: rgba(5, 19, 24, 0.92) !important;
@@ -49,6 +65,7 @@ st.markdown(f"""
         border-radius: 10px;
         text-align: center;
         box-shadow: 0 0 25px rgba(0, 255, 170, 0.3);
+        margin-top: 15px;
     }}
     .signal-box-down {{
         background: rgba(24, 5, 14, 0.92) !important;
@@ -57,6 +74,7 @@ st.markdown(f"""
         border-radius: 10px;
         text-align: center;
         box-shadow: 0 0 25px rgba(255, 0, 85, 0.3);
+        margin-top: 15px;
     }}
     .stButton>button {{
         background: linear-gradient(90deg, #00f3ff, #0066ff) !important;
@@ -68,30 +86,28 @@ st.markdown(f"""
         border-radius: 10px;
         width: 100%;
         box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+        margin-top: 10px;
     }}
     </style>
 """, unsafe_allow_html=True)
 
-# Spacing for clean layout without ugly text headers
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: #00f3ff; text-shadow: 0 0 10px #00f3ff; margin-bottom: 20px;'>⚡ HASEEB BOT AI PRO ⚡</h2>", unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
-with col1:
-    asset = st.selectbox("Asset:", (
-        "EUR/USD OTC", "GBP/USD OTC", "USD/JPY OTC", "AUD/CAD OTC", 
-        "EUR/JPY OTC", "GBP/JPY OTC", "NZD/USD OTC", "USD/CAD OTC", 
-        "BTC/USD OTC", "ETH/USD OTC"
-    ))
-with col2:
-    timeframe = st.selectbox("Timeframe:", ("1m", "5m", "15m"))
+# Controls Centered
+asset = st.selectbox("Select Asset:", (
+    "EUR/USD OTC", "GBP/USD OTC", "USD/JPY OTC", "AUD/CAD OTC", 
+    "EUR/JPY OTC", "GBP/JPY OTC", "NZD/USD OTC", "USD/CAD OTC", 
+    "BTC/USD OTC", "ETH/USD OTC"
+))
+
+timeframe = st.selectbox("Select Timeframe:", ("1m", "5m", "15m"))
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Instant & Optimized Signal Generator with Precise Timing
+# Instant Signal Generator
 if st.button("🚀 GET SIGNAL"):
     now = datetime.now()
     
-    # Enhanced calculation logic for consistent and accurate market signals
     seed_str = asset + timeframe + now.strftime("%Y%m%d%H%M")
     hash_val = int(hashlib.md5(seed_str.encode()).hexdigest(), 16)
     
@@ -107,7 +123,7 @@ if st.button("🚀 GET SIGNAL"):
         signal_type = "CALL" if (hash_val % 2 == 0) else "PUT"
         reason = f"Momentum Shift & Order Flow (RSI: {rsi_val})"
         
-    confidence = 91 + (hash_val % 7)  # High professional confidence range (91% - 97%)
+    confidence = 91 + (hash_val % 7)
     
     if timeframe == "1m":
         entry_time_obj = now + timedelta(seconds=5)
@@ -144,7 +160,7 @@ if st.button("🚀 GET SIGNAL"):
     st.markdown("<br>", unsafe_allow_html=True)
     
     st.markdown(f"""
-        <div style="background: rgba(8, 12, 20, 0.95); border: 1px solid #1e293b; padding: 12px; border-radius: 10px; font-size: 0.9rem;">
+        <div style="background: rgba(8, 12, 20, 0.95); border: 1px solid #1e293b; padding: 12px; border-radius: 10px; font-size: 0.9rem; text-align: center;">
             <p style="color: #00f3ff; font-weight: bold; margin-bottom: 5px;">⏳ TIMING GUIDE:</p>
             <p style="color: #e2e8f0; margin: 2px 0;"><b>Entry:</b> <span style="color: #00ffaa;">{entry_str}</span></p>
             <p style="color: #e2e8f0; margin: 2px 0;"><b>Expiry:</b> <span style="color: #ff0055;">{expiry_str}</span> ({timeframe})</p>
