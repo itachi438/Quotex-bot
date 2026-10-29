@@ -1,62 +1,33 @@
 import warnings
 warnings.filterwarnings('ignore')
 import streamlit as st
-import pandas as pd
 from datetime import datetime, timedelta
 import random
 
 # Page Configuration
 st.set_page_config(page_title="Haseeb Bot AI Pro", page_icon="⚡", layout="centered")
 
-# Ultra-Forced Pitch Black Theme Injection via CSS
+# Force Dark Theme Container Styling
 st.markdown("""
     <style>
-    /* Global Override for Streamlit Light/Dark Theme */
-    html, body, [class*="css"] {
-        background-color: #000000 !important;
-        color: #ffffff !important;
-    }
     .stApp {
-        background-color: #000000 !important;
+        background-color: #050505;
+        color: #ffffff;
     }
-    header[data-testid="stHeader"] {
-        background: transparent !important;
-    }
-    
-    /* Neon Watermark Background Effect */
-    .stApp::before {
-        content: "⚡ HASEEB BOT AI PRO ⚡";
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 3rem;
-        font-weight: 900;
-        color: rgba(0, 243, 255, 0.04);
-        z-index: 0;
-        pointer-events: none;
-        letter-spacing: 4px;
-        text-align: center;
-        width: 100%;
-    }
-
     .header-box {
-        background: #080c14 !important;
-        border: 1px solid #1e293b;
-        padding: 12px;
+        background: #0d1117;
+        border: 1px solid #30363d;
+        padding: 15px;
         border-radius: 12px;
         text-align: center;
-        box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
         margin-bottom: 15px;
-        position: relative;
-        z-index: 1;
     }
     .bot-title {
         color: #00f3ff;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 800;
         letter-spacing: 1px;
-        text-shadow: 0 0 10px #00f3ff;
     }
     .glow-circle-up {
         width: 90px;
@@ -66,9 +37,8 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 8px auto;
-        box-shadow: 0 0 20px #00ffaa, inset 0 0 15px #00ffaa;
-        animation: pulseGreen 1.5s infinite alternate;
+        margin: 0 auto 10px auto;
+        box-shadow: 0 0 20px #00ffaa;
     }
     .glow-circle-down {
         width: 90px;
@@ -78,60 +48,44 @@ st.markdown("""
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 8px auto;
-        box-shadow: 0 0 20px #ff0055, inset 0 0 15px #ff0055;
-        animation: pulseRed 1.5s infinite alternate;
-    }
-    @keyframes pulseGreen {
-        0% { box-shadow: 0 0 10px #00ffaa; border-color: #00ffaa; }
-        100% { box-shadow: 0 0 25px #00ffaa; border-color: #fff; }
-    }
-    @keyframes pulseRed {
-        0% { box-shadow: 0 0 10px #ff0055; border-color: #ff0055; }
-        100% { box-shadow: 0 0 25px #ff0055; border-color: #fff; }
+        margin: 0 auto 10px auto;
+        box-shadow: 0 0 20px #ff0055;
     }
     .signal-box-up {
-        background: #051318 !important;
+        background: #0d1b1e;
         border: 1px solid #00ffaa;
-        padding: 14px;
+        padding: 15px;
         border-radius: 10px;
         text-align: center;
-        box-shadow: 0 0 20px rgba(0, 255, 170, 0.25);
-        position: relative;
-        z-index: 1;
     }
     .signal-box-down {
-        background: #18050e !important;
+        background: #1f0d14;
         border: 1px solid #ff0055;
-        padding: 14px;
+        padding: 15px;
         border-radius: 10px;
         text-align: center;
-        box-shadow: 0 0 20px rgba(255, 0, 85, 0.25);
-        position: relative;
-        z-index: 1;
     }
     .stButton>button {
-        background: linear-gradient(90deg, #00f3ff, #0066ff) !important;
-        color: #ffffff !important;
+        background: linear-gradient(90deg, #00f3ff, #0066ff);
+        color: #ffffff;
         font-size: 1rem;
         font-weight: bold;
         border: none;
         padding: 10px 20px;
         border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
         width: 100%;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Compact Header
+# Header
 st.markdown("""
     <div class="header-box">
         <div class="bot-title">⚡ HASEEB BOT AI PRO ⚡</div>
     </div>
 """, unsafe_allow_html=True)
 
-# Extended Market Pairs Controls
+# Controls
 col1, col2 = st.columns(2)
 with col1:
     asset = st.selectbox("Asset:", (
@@ -146,55 +100,53 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # Generate Signal Button
 if st.button("🚀 GET SIGNAL"):
-    with st.spinner("Analyzing market volatility..."):
-        now = datetime.now()
+    now = datetime.now()
+    
+    if timeframe == "1m":
+        entry_time_obj = now + timedelta(seconds=10)
+        expiry_time_obj = entry_time_obj + timedelta(minutes=1)
+    elif timeframe == "5m":
+        entry_time_obj = now + timedelta(seconds=20)
+        expiry_time_obj = entry_time_obj + timedelta(minutes=5)
+    else:
+        entry_time_obj = now + timedelta(seconds=30)
+        expiry_time_obj = entry_time_obj + timedelta(minutes=15)
         
-        if timeframe == "1m":
-            entry_time_obj = now + timedelta(seconds=10)
-            expiry_time_obj = entry_time_obj + timedelta(minutes=1)
-        elif timeframe == "5m":
-            entry_time_obj = now + timedelta(seconds=20)
-            expiry_time_obj = entry_time_obj + timedelta(minutes=5)
-        else:
-            entry_time_obj = now + timedelta(seconds=30)
-            expiry_time_obj = entry_time_obj + timedelta(minutes=15)
-            
-        entry_str = entry_time_obj.strftime("%I:%M:%S %p")
-        expiry_str = expiry_time_obj.strftime("%I:%M:%S %p")
-        
-        signal_type = random.choice(["CALL", "PUT"])
-        confidence = random.randint(89, 98)
-        
-        st.markdown(f"<p style='text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 5px;'>SIGNAL TIME: {now.strftime('%I:%M:%S %p')}</p>", unsafe_allow_html=True)
-        
-        if signal_type == "CALL":
-            st.markdown(f"""
-                <div class="signal-box-up">
-                    <div class="glow-circle-up">
-                        <span style="font-size: 2.2rem; color: #00ffaa;">↑</span>
-                    </div>
-                    <h2 style="color: #00ffaa; font-weight: 800; margin: 5px 0;">CALL (UP)</h2>
-                    <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0;">{asset} &bull; {timeframe} &bull; {confidence}% CONFIDENCE</p>
-                </div>
-            """, unsafe_allow_html=True)
-        else:
-            st.markdown(f"""
-                <div class="signal-box-down">
-                    <div class="glow-circle-down">
-                        <span style="font-size: 2.2rem; color: #ff0055;">↓</span>
-                    </div>
-                    <h2 style="color: #ff0055; font-weight: 800; margin: 5px 0;">PUT (DOWN)</h2>
-                    <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0;">{asset} &bull; {timeframe} &bull; {confidence}% CONFIDENCE</p>
-                </div>
-            """, unsafe_allow_html=True)
-            
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        # Timing Execution Box
+    entry_str = entry_time_obj.strftime("%I:%M:%S %p")
+    expiry_str = expiry_time_obj.strftime("%I:%M:%S %p")
+    
+    signal_type = random.choice(["CALL", "PUT"])
+    confidence = random.randint(89, 98)
+    
+    st.markdown(f"<p style='text-align: center; color: #94a3b8; font-size: 0.85rem;'>SIGNAL TIME: {now.strftime('%I:%M:%S %p')}</p>", unsafe_allow_html=True)
+    
+    if signal_type == "CALL":
         st.markdown(f"""
-            <div style="background: #080c14; border: 1px solid #1e293b; padding: 12px; border-radius: 10px; font-size: 0.9rem; position: relative; z-index: 1;">
-                <p style="color: #00f3ff; font-weight: bold; margin-bottom: 5px;">⏳ TIMING GUIDE:</p>
-                <p style="color: #e2e8f0; margin: 2px 0;"><b>Entry:</b> <span style="color: #00ffaa;">{entry_str}</span></p>
-                <p style="color: #e2e8f0; margin: 2px 0;"><b>Expiry:</b> <span style="color: #ff0055;">{expiry_str}</span> ({timeframe})</p>
+            <div class="signal-box-up">
+                <div class="glow-circle-up">
+                    <span style="font-size: 2.2rem; color: #00ffaa;">↑</span>
+                </div>
+                <h2 style="color: #00ffaa; font-weight: 800; margin: 5px 0;">CALL (UP)</h2>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0;">{asset} &bull; {timeframe} &bull; {confidence}% CONFIDENCE</p>
             </div>
         """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+            <div class="signal-box-down">
+                <div class="glow-circle-down">
+                    <span style="font-size: 2.2rem; color: #ff0055;">↓</span>
+                </div>
+                <h2 style="color: #ff0055; font-weight: 800; margin: 5px 0;">PUT (DOWN)</h2>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 0;">{asset} &bull; {timeframe} &bull; {confidence}% CONFIDENCE</p>
+            </div>
+        """, unsafe_allow_html=True)
+        
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    st.markdown(f"""
+        <div style="background: #0d1117; border: 1px solid #30363d; padding: 12px; border-radius: 10px; font-size: 0.9rem;">
+            <p style="color: #00f3ff; font-weight: bold; margin-bottom: 5px;">⏳ TIMING GUIDE:</p>
+            <p style="color: #e2e8f0; margin: 2px 0;"><b>Entry:</b> <span style="color: #00ffaa;">{entry_str}</span></p>
+            <p style="color: #e2e8f0; margin: 2px 0;"><b>Expiry:</b> <span style="color: #ff0055;">{expiry_str}</span> ({timeframe})</p>
+        </div>
+    """, unsafe_allow_html=True)
