@@ -1,4 +1,3 @@
-
 import warnings
 warnings.filterwarnings('ignore')
 import streamlit as st
@@ -9,18 +8,22 @@ import random
 # Page Configuration
 st.set_page_config(page_title="Haseeb Bot AI Pro", page_icon="⚡", layout="centered")
 
-# Forced Dark CSS to override Streamlit default theme styling
-css_code = """
+# Ultra-Forced Pitch Black Theme Injection via CSS
+st.markdown("""
     <style>
-    /* Force full page dark background */
-    .stApp, body, html {
-        background-color: #020408 !important;
+    /* Global Override for Streamlit Light/Dark Theme */
+    html, body, [class*="css"] {
+        background-color: #000000 !important;
         color: #ffffff !important;
     }
-    .main {
-        background-color: #020408 !important;
+    .stApp {
+        background-color: #000000 !important;
     }
-    /* Fixed Deep Background Watermark */
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+    }
+    
+    /* Neon Watermark Background Effect */
     .stApp::before {
         content: "⚡ HASEEB BOT AI PRO ⚡";
         position: fixed;
@@ -36,6 +39,7 @@ css_code = """
         text-align: center;
         width: 100%;
     }
+
     .header-box {
         background: #080c14 !important;
         border: 1px solid #1e293b;
@@ -118,8 +122,7 @@ css_code = """
         width: 100%;
     }
     </style>
-"""
-st.markdown(css_code, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # Compact Header
 st.markdown("""
