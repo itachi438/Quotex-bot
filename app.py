@@ -7,7 +7,7 @@ import base64
 import os
 
 # Page Configuration
-st.set_page_config(page_title="Haseeb Bot AI Pro", page_icon="⚡", layout="centered")
+st.set_page_config(page_title="Haseeb Bot Pro", page_icon="⚡", layout="centered")
 
 def get_img_as_base64(file):
     if os.path.exists(file):
