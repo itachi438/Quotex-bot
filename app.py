@@ -1,3 +1,4 @@
+
 import warnings
 warnings.filterwarnings('ignore')
 import streamlit as st
@@ -8,26 +9,27 @@ import random
 # Page Configuration
 st.set_page_config(page_title="Haseeb Bot AI Pro", page_icon="⚡", layout="centered")
 
-# Custom CSS with Pitch Dark Background & High Contrast Neon Glow
+# Forced Dark CSS to override Streamlit default theme styling
 css_code = """
     <style>
-    .stApp {
-        background-color: #030508 !important;
+    /* Force full page dark background */
+    .stApp, body, html {
+        background-color: #020408 !important;
         color: #ffffff !important;
     }
     .main {
-        background-color: #030508 !important;
+        background-color: #020408 !important;
     }
-    /* Deep Dark Watermark in Background */
+    /* Fixed Deep Background Watermark */
     .stApp::before {
         content: "⚡ HASEEB BOT AI PRO ⚡";
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: 900;
-        color: rgba(0, 243, 255, 0.02);
+        color: rgba(0, 243, 255, 0.04);
         z-index: 0;
         pointer-events: none;
         letter-spacing: 4px;
@@ -35,12 +37,12 @@ css_code = """
         width: 100%;
     }
     .header-box {
-        background: #090d16;
+        background: #080c14 !important;
         border: 1px solid #1e293b;
         padding: 12px;
         border-radius: 12px;
         text-align: center;
-        box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
         margin-bottom: 15px;
         position: relative;
         z-index: 1;
@@ -85,7 +87,7 @@ css_code = """
         100% { box-shadow: 0 0 25px #ff0055; border-color: #fff; }
     }
     .signal-box-up {
-        background: #061418;
+        background: #051318 !important;
         border: 1px solid #00ffaa;
         padding: 14px;
         border-radius: 10px;
@@ -95,7 +97,7 @@ css_code = """
         z-index: 1;
     }
     .signal-box-down {
-        background: #18060e;
+        background: #18050e !important;
         border: 1px solid #ff0055;
         padding: 14px;
         border-radius: 10px;
@@ -105,8 +107,8 @@ css_code = """
         z-index: 1;
     }
     .stButton>button {
-        background: linear-gradient(90deg, #00f3ff, #0066ff);
-        color: #ffffff;
+        background: linear-gradient(90deg, #00f3ff, #0066ff) !important;
+        color: #ffffff !important;
         font-size: 1rem;
         font-weight: bold;
         border: none;
@@ -187,7 +189,7 @@ if st.button("🚀 GET SIGNAL"):
         
         # Timing Execution Box
         st.markdown(f"""
-            <div style="background: #090d16; border: 1px solid #1e293b; padding: 12px; border-radius: 10px; font-size: 0.9rem; position: relative; z-index: 1;">
+            <div style="background: #080c14; border: 1px solid #1e293b; padding: 12px; border-radius: 10px; font-size: 0.9rem; position: relative; z-index: 1;">
                 <p style="color: #00f3ff; font-weight: bold; margin-bottom: 5px;">⏳ TIMING GUIDE:</p>
                 <p style="color: #e2e8f0; margin: 2px 0;"><b>Entry:</b> <span style="color: #00ffaa;">{entry_str}</span></p>
                 <p style="color: #e2e8f0; margin: 2px 0;"><b>Expiry:</b> <span style="color: #ff0055;">{expiry_str}</span> ({timeframe})</p>
