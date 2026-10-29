@@ -20,14 +20,13 @@ def get_image_base64(path):
 logo_b64 = get_image_base64("logo.png")
 bg_style = f"background-image: linear-gradient(rgba(7, 9, 15, 0.92), rgba(7, 9, 15, 0.92)), url('data:image/png;base64,{logo_b64}'); background-size: cover; background-position: center;" if logo_b64 else "background-color: #07090f;"
 
-# Custom CSS for Compact Design & Background Logo Watermark
-st.markdown(f"""
+# Custom CSS with properly escaped braces for f-string
+css_code = f"""
     <style>
     .main {{
         {bg_style}
         color: #ffffff;
     }}
-    /* Compact Header Box */
     .header-box {{
         background: rgba(16, 24, 39, 0.7);
         border: 1px solid #1e293b;
@@ -36,7 +35,7 @@ st.markdown(f"""
         text-align: center;
         box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
         margin-bottom: 15px;
-    }
+    }}
     .bot-title {{
         color: #00f3ff;
         font-size: 1.3rem;
@@ -44,7 +43,6 @@ st.markdown(f"""
         letter-spacing: 1px;
         text-shadow: 0 0 10px #00f3ff;
     }}
-    /* Compact Glowing Circles */
     .glow-circle-up {{
         width: 90px;
         height: 90px;
@@ -105,7 +103,8 @@ st.markdown(f"""
         width: 100%;
     }}
     </style>
-""", unsafe_allow_html=True)
+"""
+st.markdown(css_code, unsafe_allow_html=True)
 
 # Compact Header (Clean Look)
 st.markdown("""
