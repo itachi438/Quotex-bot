@@ -97,7 +97,6 @@ st.markdown(f"""
 
 st.markdown("<h2 style='text-align: center; color: #00f3ff; text-shadow: 0 0 15px #00f3ff; margin-bottom: 20px;'>⚡ HASEEB BOT AI TERMINAL ⚡</h2>", unsafe_allow_html=True)
 
-# Comprehensive Asset Mapping
 asset_map = {
     "EUR/USD (Live Feed)": "EURUSD=X",
     "GBP/USD (Live Feed)": "GBPUSD=X",
@@ -132,7 +131,6 @@ if st.button("🚀 EXECUTE AI CONFLUENCE ANALYSIS"):
                 low = df['Low']
                 open_p = df['Open']
 
-                # Real RSI (14)
                 delta = close.diff()
                 gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
                 loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
@@ -140,7 +138,6 @@ if st.button("🚀 EXECUTE AI CONFLUENCE ANALYSIS"):
                 rsi = 100 - (100 / (1 + rs))
                 latest_rsi = round(rsi.iloc[-1], 2)
 
-                # Moving Averages & Bollinger Bands
                 ema9 = close.ewm(span=9, adjust=False).mean().iloc[-1]
                 ema21 = close.ewm(span=21, adjust=False).mean().iloc[-1]
                 sma20 = close.rolling(window=20).mean().iloc[-1]
@@ -148,7 +145,6 @@ if st.button("🚀 EXECUTE AI CONFLUENCE ANALYSIS"):
                 upper_b = sma20 + (std20 * 2)
                 lower_b = sma20 - (std20 * 2)
 
-                # Latest Candle Metrics
                 o = open_p.iloc[-1]
                 c = close.iloc[-1]
                 h = high.iloc[-1]
@@ -157,7 +153,6 @@ if st.button("🚀 EXECUTE AI CONFLUENCE ANALYSIS"):
                 upper_w = h - max(o, c)
                 lower_w = min(o, c) - l
 
-                # Confluence Calculation
                 bull_score = 0
                 bear_score = 0
                 patterns = []
@@ -222,4 +217,45 @@ if st.button("🚀 EXECUTE AI CONFLUENCE ANALYSIS"):
     entry_str = entry_t.strftime("%I:%M:%S %p")
     expiry_str = expiry_t.strftime("%I:%M:%S %p")
 
-    st.markdown(f"<p style='text-align: center; color: #94a3b8; font-size: 0.85rem;'>SIGNAL TIMESTAMP: {now.strftime('%I:%M:%S %p')}</p>", unsafe
+    st.markdown(f"<p style='text-align: center; color: #94a3b8; font-size: 0.85rem;'>SIGNAL TIMESTAMP: {now.strftime('%I:%M:%S %p')}</p>", unsafe_allow_html=True)
+
+    if signal_type == "CALL":
+        st.markdown(f"""
+            <div class="signal-box-up">
+                <h2 style="color: #00ffaa; font-weight: 800; margin: 5px 0;">CALL (UP) 🟢</h2>
+                <p style="font-size: 0.9rem; color: #ffffff; font-weight: bold; margin: 4px 0;">{selected_asset} &bull; {timeframe}</p>
+                <p style="font-size: 0.85rem; color: #00ffaa; margin: 4px 0;">CONFIDENCE SCORE: {confidence}%</p>
+                <div style="margin-top: 8px;">
+                    <span class="indicator-tag">RSI: {latest_rsi}</span>
+                    <span class="indicator-tag">MACD / Bollinger</span>
+                    <span class="indicator-tag">Stochastic / CCI</span>
+                    <span class="indicator-tag">Supertrend BUY</span>
+                </div>
+                <p style="font-size: 0.75rem; color: #cbd5e1; margin-top: 8px;"><b>Confluence Trigger:</b> {pattern_text}</p>
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+            <div class="signal-box-down">
+                <h2 style="color: #ff0055; font-weight: 800; margin: 5px 0;">PUT (DOWN) 🔴</h2>
+                <p style="font-size: 0.9rem; color: #ffffff; font-weight: bold; margin: 4px 0;">{selected_asset} &bull; {timeframe}</p>
+                <p style="font-size: 0.85rem; color: #ff0055; margin: 4px 0;">CONFIDENCE SCORE: {confidence}%</p>
+                <div style="margin-top: 8px;">
+                    <span class="indicator-tag">RSI: {latest_rsi}</span>
+                    <span class="indicator-tag">MACD / Bollinger</span>
+                    <span class="indicator-tag">Stochastic / CCI</span>
+                    <span class="indicator-tag">Supertrend SELL</span>
+                </div>
+                <p style="font-size: 0.75rem; color: #cbd5e1; margin-top: 8px;"><b>Confluence Trigger:</b> {pattern_text}</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.markdown(f"""
+        <div style="background: rgba(8, 12, 20, 0.96); border: 1px solid #1e293b; padding: 12px; border-radius: 10px; font-size: 0.9rem; text-align: center;">
+            <p style="color: #00f3ff; font-weight: bold; margin-bottom: 5px;">⏳ EXECUTION SCHEDULE:</p>
+            <p style="color: #e2e8f0; margin: 2px 0;"><b>Entry Time:</b> <span style="color: #00ffaa;">{entry_str}</span></p>
+            <p style="color: #e2e8f0; margin: 2px 0;"><b>Expiry Time:</b> <span style="color: #ff0055;">{expiry_str}</span> ({timeframe})</p>
+        </div>
+    """, unsafe_allow_html=True)
